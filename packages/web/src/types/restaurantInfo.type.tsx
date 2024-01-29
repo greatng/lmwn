@@ -8,10 +8,11 @@ export type Restaurant = {
     id: number;
     coverImage: string;
     activeTimePeriod: ActivePeriod;
-    menu: string[];
+    menus: string[];
 };
 
 export enum RestaurantStatus {
     Open = 'เปิด',
     Closed = 'ปิด',
 }
+

@@ -1,5 +1,5 @@
 import { TimeHelpers } from 'helpers/time.helpers';
-import { Restaurant, RestaurantStatus } from 'types/restaurantInfo';
+import { Restaurant, RestaurantStatus } from 'types/restaurantInfo.type';
 
 const getRestarantStatus = (activePeriod: {
     open: string;
