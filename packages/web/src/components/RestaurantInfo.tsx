@@ -6,7 +6,7 @@ const getRestarantStatus = (open: string, close: string): RestaurantStatus => {
     return isOpen ? RestaurantStatus.Open : RestaurantStatus.Closed;
 };
 
-export const RestaurantInfo = ({ restaurant }: { restaurant: Restaurant }) => {
+const RestaurantInfo = ({ restaurant }: { restaurant: Restaurant }) => {
     const { name, activeTimePeriod } = restaurant;
     const { open, close } = activeTimePeriod;
 
@@ -29,4 +29,6 @@ export const RestaurantInfo = ({ restaurant }: { restaurant: Restaurant }) => {
         </>
     );
 };
+
+export default RestaurantInfo;
 

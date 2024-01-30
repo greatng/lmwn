@@ -10,9 +10,9 @@ import {
 } from 'types/menuInfo.type';
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
-import { FullMenuModal } from './FullMenuModal';
+import FullMenuModal from './FullMenuModal';
 
-export const MenuCard = memo(
+const MenuCard = memo(
     ({
         menu,
         restaurantId,
@@ -145,3 +145,4 @@ export const MenuCard = memo(
     isEqual
 );
 
+export default MenuCard;

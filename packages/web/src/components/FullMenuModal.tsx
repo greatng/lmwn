@@ -8,10 +8,11 @@ import {
     OUT_OF_STOCK,
     ShortMenu,
 } from 'types/menuInfo.type';
+import ErrorNotice from './ErrorNotice';
 
-const MenuOption = (options: MenuOptions): JSX.Element => {
+const MenuOption = ({ options }: { options: MenuOptions }) => {
     return (
-        <div className="flex flex-col gap-2 m-4 overflow-y-scroll h-[25dvh] min-h-min">
+        <div className="flex flex-col gap-2 m-2 overflow-y-scroll h-1/3">
             {options.map((option, idx) => (
                 <div className="flex flex-col gap-2" key={idx}>
                     <div className="text-2xl">{option.label}</div>
@@ -31,7 +32,7 @@ const MenuOption = (options: MenuOptions): JSX.Element => {
     );
 };
 
-export const FullMenuModal = ({
+const FullMenuModal = ({
     shortMenuData,
     setIsModalOpen,
     restaurantId,
@@ -45,6 +46,7 @@ export const FullMenuModal = ({
     isHottest: boolean;
 }) => {
     const [menuData, setMenuData] = useState<FullMenu | undefined>();
+    const [isError, setIsError] = useState(false);
 
     useEffect(() => {
         const fetchMenu = async () => {
@@ -57,9 +59,11 @@ export const FullMenuModal = ({
                     return res.json();
                 })
                 .then((data) => {
+                    setIsError(false);
                     setMenuData(data);
                 })
                 .catch((err) => {
+                    setIsError(true);
                     console.error(err);
                 });
         };
@@ -72,7 +76,7 @@ export const FullMenuModal = ({
             <div className="fixed top-1/3 left-0 w-full h-2/3 bg-slate-50 rounded-t-xl">
                 <div className="flex justify-center items-center m-4">
                     <div className="flex-1"></div>
-                    <h1 className="text-3xl flex">
+                    <h1 className="text-2xl flex">
                         {menuData?.name ?? shortMenuData.name}{' '}
                         {menuData?.totalInStock === 0 && (
                             <div className="text-red-500">{OUT_OF_STOCK}</div>
@@ -88,28 +92,37 @@ export const FullMenuModal = ({
                     </div>
                 </div>
                 <div
-                    className="flex justify-center items-center mt-4 h-1/3 w-full bg-cover bg-center"
+                    className="flex justify-center items-center h-1/4 md:h-1/3 mt-4 w-full bg-cover bg-center"
                     style={{
                         backgroundImage: `url(${menuData?.largeImage ?? '/assets/No_image_available.png'}`,
                     }}
                 />
-                <div className="flex justify-center items-center m-4">
-                    <div className="flex-1 text-3xl">
-                        {Helpers.getPriceFullText(
-                            menuData?.fullPrice ?? shortMenuData.fullPrice,
-                            menuData?.discountedPercent ??
-                                shortMenuData.discountedPercent,
-                            isDiscounted
-                        )}
-                    </div>
-                    <div className="flex-1 text-right text-3xl">
-                        {isHottest && HOTTEST}
-                    </div>
-                </div>
-                <hr className="w-full" />
-                {MenuOption(menuData?.options ?? [])}
+                {isError ? (
+                    <ErrorNotice />
+                ) : (
+                    <>
+                        <div className="flex justify-center items-center m-4">
+                            <div className="flex-1 text-3xl">
+                                {Helpers.getPriceFullText(
+                                    menuData?.fullPrice ??
+                                        shortMenuData.fullPrice,
+                                    menuData?.discountedPercent ??
+                                        shortMenuData.discountedPercent,
+                                    isDiscounted
+                                )}
+                            </div>
+                            <div className="flex-1 text-right text-3xl">
+                                {isHottest && HOTTEST}
+                            </div>
+                        </div>
+                        <hr className="w-full" />
+                        <MenuOption options={menuData?.options ?? []} />
+                    </>
+                )}
             </div>
         </div>
     );
 };
+
+export default FullMenuModal;
 

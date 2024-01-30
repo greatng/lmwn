@@ -1,11 +1,11 @@
 import { memo, useEffect, useState } from 'react';
-import { MenuCard } from './MenuCard';
+import MenuCard from './MenuCard';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import forEach from 'lodash/forEach';
 import { head } from 'lodash';
 
-export const MenuLayout = memo(
+const MenuLayout = memo(
     ({ menus, restaurantId }: { menus: string[]; restaurantId: string }) => {
         const [menusSold, setMenusSold] = useState<Record<string, number>>({});
         const [hottestMenus, setHottestMenus] = useState<string[]>([]);
@@ -62,4 +62,6 @@ export const MenuLayout = memo(
     },
     isEqual
 );
+
+export default MenuLayout;
 
