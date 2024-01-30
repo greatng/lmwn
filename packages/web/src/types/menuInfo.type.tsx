@@ -11,10 +11,7 @@ export type ShortMenu = {
     thumbnailImage?: string;
     fullPrice: number;
     discountedPercent: number;
-    discountedTimePeriod?: {
-        begin: string;
-        end: string;
-    };
+    discountedTimePeriod?: TimePeriod;
     sold: number;
     totalInStock: number;
 };
@@ -25,18 +22,26 @@ export type FullMenu = {
     thumbnailImage?: string;
     fullPrice: number;
     discountedPercent: number;
-    discountedTimePeriod?: {
-        begin: string;
-        end: string;
-    };
+    discountedTimePeriod?: TimePeriod;
     sold: number;
     totalInStock: number;
     largeImage?: string;
-    options: {
-        label: string;
-        choices: {
-            label: string;
-        }[];
-    }[];
+    options: MenuOptions;
 };
+
+export type TimePeriod = {
+    begin: string;
+    end: string;
+};
+
+export type MenuOptions = {
+    label: string;
+    choices: {
+        label: string;
+    }[];
+}[];
+
+export const HOTTEST = 'ยอดขายดีที่สุดในร้าน !';
+export const BAHT = 'บาท';
+export const OUT_OF_STOCK = '(หมด)';
 

@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import 'dotenv/config';
 import routes from './src/routes/routes';
+import cors from 'cors';
 
 export const app: Application = express();
 
@@ -8,6 +9,7 @@ const port = 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use('/api', routes);
 
 app.get('/', (req, res) => res.send('LINE MAN Wongnai Frontend Assignment'));
