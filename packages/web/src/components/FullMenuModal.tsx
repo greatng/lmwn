@@ -77,7 +77,7 @@ const FullMenuModal = ({
             data-testid="full-menu-modal"
             className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center"
         >
-            <div className="fixed top-1/3 left-0 w-full h-2/3 bg-slate-50 rounded-t-xl">
+            <div className="fixed top-1/3 w-full md:w-4/5 lg:w-3/5 h-2/3 bg-slate-50 rounded-t-xl">
                 <div className="flex justify-center items-center m-4">
                     <div className="flex-1"></div>
                     <h1 className="text-2xl flex">

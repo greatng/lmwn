@@ -1,6 +1,5 @@
 import { ShortMenu } from '../../types/menuInfo.type';
 import '@testing-library/jest-dom';
-import MenuLayout from '../MenuLayout';
 import { render, screen, act } from '@testing-library/react';
 import MenuCard from '../MenuCard';
 
@@ -36,6 +35,7 @@ it('should render menu card and display hottest badge', async () => {
 
     expect(screen.getByTestId('menu-card')).toBeInTheDocument();
     expect(screen.getByTestId('hottest-badge')).toBeInTheDocument();
+    expect(screen.queryByTestId('discount')).not.toBeInTheDocument();
     expect(screen.queryByTestId('full-menu-modal')).not.toBeInTheDocument();
 });
 
@@ -110,5 +110,39 @@ it('should call open modal when click on menu card', async () => {
     });
 
     expect(screen.getByTestId('full-menu-modal')).toBeInTheDocument();
+});
+
+it('should render menu card and display discount if it is in that discount time', async () => {
+    const mockDiscountedMenuData = {
+        ...mockMenuData,
+        discountedTimePeriod: {
+            begin: '10:00',
+            end: '12:59',
+        },
+    } as ShortMenu;
+
+    (global.fetch as any).mockResolvedValue({
+        ok: true,
+        json: () => mockDiscountedMenuData,
+    });
+
+    jest.useFakeTimers().setSystemTime(new Date('2024-01-31').setHours(11));
+
+    await act(async () => {
+        render(
+            <MenuCard
+                menu="ต้มยำ"
+                restaurantId="test-id"
+                hottestMenus={[]}
+                setMenusSold={jest.fn()}
+            />
+        );
+    });
+
+    expect(screen.getByTestId('menu-card')).toBeInTheDocument();
+    expect(screen.getByTestId('normal-price').className).toContain(
+        'line-through'
+    );
+    expect(screen.getByTestId('discount-price')).toBeInTheDocument();
 });
 

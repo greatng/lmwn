@@ -55,23 +55,10 @@ const MenuCard = ({
     }, []);
 
     useEffect(() => {
-        if (!menuData?.discountedTimePeriod) return;
-
-        let interval = setInterval(
-            () => {
-                if (menuData?.discountedTimePeriod) {
-                    const { begin: start, end } = menuData.discountedTimePeriod;
-                    setIsDiscounted(
-                        UtilityHelpers.isInBetweenPeriod(start, end)
-                    );
-                }
-            },
-            1000 * 60 * 5
-        );
-
-        return () => {
-            clearInterval(interval);
-        };
+        if (menuData?.discountedTimePeriod) {
+            const { begin: start, end } = menuData.discountedTimePeriod;
+            setIsDiscounted(UtilityHelpers.isInBetweenPeriod(start, end));
+        }
     }, [menuData]);
 
     useEffect(() => {
@@ -118,11 +105,14 @@ const MenuCard = ({
                 <div className="flex flex-col items-start h-full w-1/2 ml-4 gap-4 font-medium">
                     <h1>{menuData?.name}</h1>
                     <span className="inline-flex gap-1">
-                        <h1 className={`${isDiscounted ? 'line-through' : ''}`}>
+                        <h1
+                            data-testid="normal-price"
+                            className={`${isDiscounted ? 'line-through' : ''}`}
+                        >
                             {menuData?.fullPrice} {BAHT}
                         </h1>
                         {isDiscounted && (
-                            <h1>
+                            <h1 data-testid="discount-price">
                                 {UtilityHelpers.getDiscountedPrice(
                                     menuData.fullPrice,
                                     menuData.discountedPercent
