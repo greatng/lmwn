@@ -1,8 +1,8 @@
-import { Helpers } from 'helpers/helpers';
-import { Restaurant, RestaurantStatus } from 'types/restaurantInfo.type';
+import { UtilityHelpers } from '../helpers/utilityHelpers';
+import { Restaurant, RestaurantStatus } from '../types/restaurantInfo.type';
 
 const getRestarantStatus = (open: string, close: string): RestaurantStatus => {
-    const isOpen = Helpers.isInBetweenPeriod(open, close);
+    const isOpen = UtilityHelpers.isInBetweenPeriod(open, close);
     return isOpen ? RestaurantStatus.Open : RestaurantStatus.Closed;
 };
 
@@ -16,7 +16,8 @@ const RestaurantInfo = ({ restaurant }: { restaurant: Restaurant }) => {
                 <div className="flex gap-3 items-center">
                     <h1 className={'text-3xl'}>{name}</h1>
                     <div
-                        className={`${Helpers.isInBetweenPeriod(open, close) ? 'bg-green-500' : 'bg-red-600'}
+                        data-testid="restaurant-status"
+                        className={`${UtilityHelpers.isInBetweenPeriod(open, close) ? 'bg-green-500' : 'bg-red-600'}
 						flex justify-center items-center w-28 h-8 font-medium text-white rounded-md text-lg`}
                     >
                         {getRestarantStatus(

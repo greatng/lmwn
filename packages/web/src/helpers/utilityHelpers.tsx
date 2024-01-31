@@ -1,4 +1,4 @@
-export class Helpers {
+export class UtilityHelpers {
     public static isInBetweenPeriod = (
         start: string,
         end: string,
@@ -38,10 +38,13 @@ export class Helpers {
         let price = fullPrice;
 
         if (isDiscounted) {
-            price = Helpers.getDiscountedPrice(fullPrice, discountedPercent);
+            price = UtilityHelpers.getDiscountedPrice(
+                fullPrice,
+                discountedPercent
+            );
         }
 
-        return Helpers.getPriceText(price);
+        return UtilityHelpers.getPriceText(price);
     };
 
     private static getPriceText = (price: number) => `ราคา ${price} บาท`;

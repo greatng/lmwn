@@ -1,10 +1,11 @@
 import { createFileRoute, useParams } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { Restaurant } from 'types/restaurantInfo.type';
-import HeroImage from 'components/HeroImage';
-import RestaurantInfo from 'components/RestaurantInfo';
-import MenuLayout from 'components/MenuLayout';
-import ErrorNotice from 'components/ErrorNotice';
+import { Restaurant } from '../types/restaurantInfo.type';
+import HeroImage from '../components/HeroImage';
+import RestaurantInfo from '../components/RestaurantInfo';
+import MenuLayout from '../components/MenuLayout';
+import ErrorNotice from '../components/ErrorNotice';
+import { BACKEND_URL } from '../constants';
 
 const RestaurantPage = () => {
     const { restaurantId }: { restaurantId: string } = useParams({
@@ -15,9 +16,7 @@ const RestaurantPage = () => {
 
     useEffect(() => {
         const fetchRestaurant = async () => {
-            await fetch(
-                `${import.meta.env.VITE_BACKEND_URL}/api/restaurants/${restaurantId}`
-            )
+            await fetch(`${BACKEND_URL}/api/restaurants/${restaurantId}`)
                 .then((res) => {
                     if (!res.ok) throw new Error(res.statusText);
 

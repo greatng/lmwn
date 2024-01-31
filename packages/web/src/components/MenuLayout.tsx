@@ -45,7 +45,10 @@ const MenuLayout = memo(
         }, [menusSold]);
 
         return (
-            <div className="grid grid-flow-row gap-6 w-3/4 mt-8">
+            <div
+                data-testid="menu-layout"
+                className="grid grid-flow-row gap-6 w-3/4 mt-8"
+            >
                 {menus.map((menu, idx) => {
                     return (
                         <MenuCard

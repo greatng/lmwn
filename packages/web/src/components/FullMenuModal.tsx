@@ -1,4 +1,4 @@
-import { Helpers } from 'helpers/helpers';
+import { UtilityHelpers } from '../helpers/utilityHelpers';
 import { useEffect, useState } from 'react';
 import {
     FullMenu,
@@ -7,8 +7,9 @@ import {
     MenuType,
     OUT_OF_STOCK,
     ShortMenu,
-} from 'types/menuInfo.type';
+} from '../types/menuInfo.type';
 import ErrorNotice from './ErrorNotice';
+import { BACKEND_URL } from '../constants';
 
 const MenuOption = ({ options }: { options: MenuOptions }) => {
     return (
@@ -51,7 +52,7 @@ const FullMenuModal = ({
     useEffect(() => {
         const fetchMenu = async () => {
             await fetch(
-                `${import.meta.env.VITE_BACKEND_URL}/api/restaurants/${restaurantId}/menus/${shortMenuData.id}/${MenuType.Full}`
+                `${BACKEND_URL}/api/restaurants/${restaurantId}/menus/${shortMenuData.id}/${MenuType.Full}`
             )
                 .then((res) => {
                     if (!res.ok) throw new Error(res.statusText);
@@ -72,18 +73,27 @@ const FullMenuModal = ({
     }, []);
 
     return (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
+        <div
+            data-testid="full-menu-modal"
+            className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center"
+        >
             <div className="fixed top-1/3 left-0 w-full h-2/3 bg-slate-50 rounded-t-xl">
                 <div className="flex justify-center items-center m-4">
                     <div className="flex-1"></div>
                     <h1 className="text-2xl flex">
                         {menuData?.name ?? shortMenuData.name}{' '}
                         {menuData?.totalInStock === 0 && (
-                            <div className="text-red-500">{OUT_OF_STOCK}</div>
+                            <div
+                                data-testid="out-of-stock"
+                                className="text-red-500"
+                            >
+                                {OUT_OF_STOCK}
+                            </div>
                         )}
                     </h1>
                     <div className="flex-1">
                         <div
+                            data-testid="close-modal-btn"
                             className="w-10 h-10 ml-auto bg-cover bg-center cursor-pointer bg-[url('/assets/down.png')]"
                             onClick={() => {
                                 setIsModalOpen(false);
@@ -103,7 +113,7 @@ const FullMenuModal = ({
                     <>
                         <div className="flex justify-center items-center m-4">
                             <div className="flex-1 text-3xl">
-                                {Helpers.getPriceFullText(
+                                {UtilityHelpers.getPriceFullText(
                                     menuData?.fullPrice ??
                                         shortMenuData.fullPrice,
                                     menuData?.discountedPercent ??
